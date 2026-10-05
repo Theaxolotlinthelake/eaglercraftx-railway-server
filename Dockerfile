@@ -1,16 +1,15 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:8-jre-alpine
 
 
-RUN apk add --no-cache bash rsync
+RUN apk add --no-cache bash rsync curl
 
 
 WORKDIR /server_template
 COPY . .
-
+RUN curl -o server.jar https://papermc.io
 
 WORKDIR /server
 
 
 CMD rsync -va --ignore-existing /server_template/ /server/ && \
-    if [ ! -f "server.jar" ] && [ -f "paper.jar" ]; then mv paper.jar server.jar; fi && \
     java -Xmx2G -jar server.jar nogui
