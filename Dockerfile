@@ -1,16 +1,16 @@
 FROM eclipse-temurin:8-jre-alpine
 
 
-RUN apk add --no-cache bash rsync wget
+RUN apk add --no-cache bash rsync curl
 
 
 WORKDIR /server_template
-COPY . .
 
 
-RUN wget -O server.jar https://github.com
+RUN curl -L -o server.jar "https://github.com"
 
 WORKDIR /server
+
 
 CMD rm -f /server/server.jar && \
     rsync -va --ignore-existing /server_template/ /server/ && \
